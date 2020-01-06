@@ -1,0 +1,10 @@
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\bin\Debug\getAmazonItemPicture2.exe.config
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\bin\Debug\getAmazonItemPicture2.exe
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\bin\Debug\getAmazonItemPicture2.pdb
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\obj\Debug\getAmazonItemPicture2.csprojAssemblyReference.cache
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\obj\Debug\getAmazonItemPicture2.Form1.resources
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\obj\Debug\getAmazonItemPicture2.Properties.Resources.resources
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\obj\Debug\getAmazonItemPicture2.csproj.GenerateResource.cache
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\obj\Debug\getAmazonItemPicture2.csproj.CoreCompileInputs.cache
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\obj\Debug\getAmazonItemPicture2.exe
+C:\Users\meito\source\repos\getAmazonItemPicture2\getAmazonItemPicture2\obj\Debug\getAmazonItemPicture2.pdb
