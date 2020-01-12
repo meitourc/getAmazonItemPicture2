@@ -19,8 +19,9 @@ namespace getAmazonItemPicture2
         static string DELIMITER = ","; //CSV読み書き用区切り文字
         static string DOUBLE_QUOTATION = "\""; //ダブルクォーテーション
         static string LINE_FEED_CODE = "\r\n"; //改行コード
-        List<string> stringList = new List<string>(); //CSV読み込みデータ格納リスト
-
+        //static List<AmazonItemData> amazonItemDataList = new List<AmazonItemData>(); //CSV読み込みデータ格納リスト
+                                                                 //List<string> stringList = new List<string>(); //CSV読み込みデータ格納リスト
+        //public static List<string[]> stringList = new List<string[]>();
 
 
 
@@ -43,7 +44,7 @@ namespace getAmazonItemPicture2
         {
             string path = @""; //入力ファイル名
             char[] delimiter = DELIMITER.ToCharArray(); //区切り文字をまとめる
-            string[] strData; //分解後の文字の入れ物
+            //string[] strData; //分解後の文字の入れ物
             string strLine; //1行分のデータ
 
             path = textBox_input.Text;
@@ -58,12 +59,14 @@ namespace getAmazonItemPicture2
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(DELIMITER);
                 //while (sr.Peek() >= 0)
+
+                List<AmazonItemData> amazonItemDataList = new List<AmazonItemData>(); //CSV読み込
                 while (parser.EndOfData == false)
                 {
                     try
                     {
 
-                        strData = parser.ReadFields();
+                        string[] strData = parser.ReadFields();
 
                         if (parser.LineNumber == 2 && strData[0] == "id")
                         {
@@ -72,11 +75,20 @@ namespace getAmazonItemPicture2
 
  
 
-                        stringList.AddRange(strData);
+                        //stringList.AddRange(strData);
 
 
 
                         Console.WriteLine(strData[1]);
+
+                        AmazonItemData amazonItemData = new AmazonItemData();
+                        amazonItemData.id = strData[0];
+                        amazonItemData.asin = strData[1];
+                        amazonItemData.pictureName = strData[2];
+                        amazonItemData.pictureURL = "";
+
+                        amazonItemDataList.AddRange(amazonItemData);
+                  
 
                     }
                     catch (Exception ex)
@@ -113,8 +125,11 @@ namespace getAmazonItemPicture2
             // コンソールに出力する
             foreach (string list in stringList)
             {
-                //Console.WriteLine("{0} ", list);
-                Console.WriteLine(list[0]);
+                Console.WriteLine("{0} ", list);
+                Console.WriteLine("-------------");
+
+                //Console.WriteLine(list[0]);
+
             }
 
         }
