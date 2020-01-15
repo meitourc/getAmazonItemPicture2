@@ -122,9 +122,9 @@ namespace getAmazonItemPicture2
             {
                 //Console.WriteLine(data.id + data.asin + data.pictureName);
                 //Console.WriteLine(list[0]);
-                string itemPictureUrl = getItemPictureUrl(data.pictureName);
+                string itemPictureUrl = getItemPictureUrl(data.asin);
                 string itemPictureHtml = getItemPictureHtml(itemPictureUrl);
-                scrapingItemPicture(itemPictureHtml);
+                scrapingItemPicture(itemPictureHtml,data.pictureName);
             }
 
         }
@@ -163,7 +163,7 @@ namespace getAmazonItemPicture2
         }
 
 
-        private void scrapingItemPicture(string html)
+        private void scrapingItemPicture(string html,string pictureName)
         {
 
             //string html = getItemPictureHtml(asinUrl);
@@ -192,13 +192,13 @@ namespace getAmazonItemPicture2
                 string URI = item.ToString().Trim('\"');
                 //Console.WriteLine("match.Groups[" + i + "] : " + item);
                 Console.WriteLine(URI);
-                string path = "../../sample_" + i + ".gif";
+                string path = "../../sample_" + pictureName;
 
                 string[] base64Image = URI.Split(',');
 
                 Console.WriteLine("\n2-------------------------------------------------------------------\n");
 
-                Console.WriteLine(base64Image[1]);
+                //Console.WriteLine(base64Image[1]);
 
 
                 var bytes = Convert.FromBase64String(base64Image[1]);
@@ -208,8 +208,7 @@ namespace getAmazonItemPicture2
                     imageFile.Write(bytes, 0, bytes.Length);
                     imageFile.Flush();
                 }
-
-                i++;
+             
 
             }
 
