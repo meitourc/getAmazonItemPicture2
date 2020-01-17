@@ -23,6 +23,7 @@ namespace getAmazonItemPicture2
         static string DOUBLE_QUOTATION = "\""; //ダブルクォーテーション
         static string LINE_FEED_CODE = "\r\n"; //改行コード
         string OUTPUT_FOLDAR_PATH = "";
+        string INPUT_FILE_PATH = "";
         static List<AmazonItemData> amazonItemDataList = new List<AmazonItemData>(); //CSV読み込みデータ格納リスト
                                                                  //List<string> stringList = new List<string>(); //CSV読み込みデータ格納リスト
         //public static List<string[]> stringList = new List<string[]>();
@@ -46,13 +47,12 @@ namespace getAmazonItemPicture2
         /// <param name="e"></param>
         private void button_csv_read_Click(object sender, EventArgs e)
         {
-            string path = @""; //入力ファイル名
             char[] delimiter = DELIMITER.ToCharArray(); //区切り文字をまとめる
-            //string[] strData; //分解後の文字の入れ物
-            string strLine; //1行分のデータ
 
-            path = textBox_input.Text;
-            path = @"C:\1_project\種市さん\amazon\takuma\takuma\input\input4.csv";
+            INPUT_FILE_PATH = textBox_input.Text;
+            string path = INPUT_FILE_PATH;
+           // string path = @"C:\1_project\種市さん\amazon\takuma\takuma\input\input4.csv";
+            //INPUT_FILE_PATH = path;
 
             bool fileExists = System.IO.File.Exists(path);
             if (fileExists)
@@ -129,9 +129,29 @@ namespace getAmazonItemPicture2
                 //Console.WriteLine(list[0]);
                 string itemPictureUrl = getItemPictureUrl(data.asin);
                 string itemPictureHtml = getItemPictureHtml(itemPictureUrl);
-                scrapingItemPicture(itemPictureHtml,data.id, data.pictureName);
+                data.pictureURL = scrapingItemPicture(itemPictureHtml,data.id, data.pictureName);
+                
             }
+            string output_file_path = OUTPUT_FOLDAR_PATH + @"\" + Path.GetFileName(INPUT_FILE_PATH);
 
+
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                output_file_path,
+                false,
+                System.Text.Encoding.Default);
+
+            string strData = ""; //1行分のデータ
+
+            foreach (var data in amazonItemDataList)
+            {
+                strData = data.id + DELIMITER
+                    + data.asin + DELIMITER
+                    + data.pictureName + DELIMITER
+                    + data.pictureURL + DELIMITER
+                    + data.pictureURL;
+                sw.WriteLine(strData);
+            }
+            sw.Close();
         }
 
         /// <summary>
@@ -168,13 +188,14 @@ namespace getAmazonItemPicture2
         }
 
 
-        private void scrapingItemPicture(string html,string id, string pictureName)
+        private string scrapingItemPicture(string html,string id, string pictureName)
         {
 
             //string html = getItemPictureHtml(asinUrl);
             html = html.Replace("\r", "").Replace("\n", "");
 
             string output_foldar_path = OUTPUT_FOLDAR_PATH + @"/" + id + "_" + pictureName;
+            String UriForConvert = "";
 
             string pattern = "";
             pattern = "imgTagWrapperId(.*)</div>";
@@ -210,7 +231,7 @@ namespace getAmazonItemPicture2
 
                 //Console.WriteLine(base64Image[1]);
 
-                String UriForConvert = base64Image[1];
+                UriForConvert = base64Image[1];
                 var bytes = Convert.FromBase64String(UriForConvert);
 
 
@@ -223,6 +244,7 @@ namespace getAmazonItemPicture2
              
 
             }
+            return UriForConvert;
 
         }
 
