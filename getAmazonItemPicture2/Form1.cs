@@ -22,6 +22,7 @@ namespace getAmazonItemPicture2
         static string DELIMITER = ","; //CSV読み書き用区切り文字
         static string DOUBLE_QUOTATION = "\""; //ダブルクォーテーション
         static string LINE_FEED_CODE = "\r\n"; //改行コード
+        string OUTPUT_FOLDAR_PATH = "";
         static List<AmazonItemData> amazonItemDataList = new List<AmazonItemData>(); //CSV読み込みデータ格納リスト
                                                                  //List<string> stringList = new List<string>(); //CSV読み込みデータ格納リスト
         //public static List<string[]> stringList = new List<string[]>();
@@ -51,7 +52,7 @@ namespace getAmazonItemPicture2
             string strLine; //1行分のデータ
 
             path = textBox_input.Text;
-            path = @"C:\1_project\種市さん\amazon\takuma\takuma\input\input.csv";
+            path = @"C:\1_project\種市さん\amazon\takuma\takuma\input\input4.csv";
 
             bool fileExists = System.IO.File.Exists(path);
             if (fileExists)
@@ -118,13 +119,17 @@ namespace getAmazonItemPicture2
         private void button_exec_Click(object sender, EventArgs e)
         {
             // コンソールに出力する
+            if(textBox_output.Text == "") { 
+                string outputFoldarPath = @".\";
+            }
+
             foreach (var data in amazonItemDataList)
             {
                 //Console.WriteLine(data.id + data.asin + data.pictureName);
                 //Console.WriteLine(list[0]);
                 string itemPictureUrl = getItemPictureUrl(data.asin);
                 string itemPictureHtml = getItemPictureHtml(itemPictureUrl);
-                scrapingItemPicture(itemPictureHtml,data.pictureName);
+                scrapingItemPicture(itemPictureHtml,data.id, data.pictureName);
             }
 
         }
@@ -163,11 +168,13 @@ namespace getAmazonItemPicture2
         }
 
 
-        private void scrapingItemPicture(string html,string pictureName)
+        private void scrapingItemPicture(string html,string id, string pictureName)
         {
 
             //string html = getItemPictureHtml(asinUrl);
             html = html.Replace("\r", "").Replace("\n", "");
+
+            string output_foldar_path = OUTPUT_FOLDAR_PATH + @"/" + id + "_" + pictureName;
 
             string pattern = "";
             pattern = "imgTagWrapperId(.*)</div>";
@@ -192,7 +199,10 @@ namespace getAmazonItemPicture2
                 string URI = item.ToString().Trim('\"');
                 //Console.WriteLine("match.Groups[" + i + "] : " + item);
                 Console.WriteLine(URI);
-                string path = "../../sample_" + pictureName;
+
+                SafeCreateDirectory(output_foldar_path);
+                string path = output_foldar_path +"/" + pictureName;
+                //string path = "../../sample_" + pictureName;
 
                 string[] base64Image = URI.Split(',');
 
@@ -200,8 +210,10 @@ namespace getAmazonItemPicture2
 
                 //Console.WriteLine(base64Image[1]);
 
+                String UriForConvert = base64Image[1];
+                var bytes = Convert.FromBase64String(UriForConvert);
 
-                var bytes = Convert.FromBase64String(base64Image[1]);
+
 
                 using (var imageFile = new FileStream(path, FileMode.Create))
                 {
@@ -215,5 +227,42 @@ namespace getAmazonItemPicture2
         }
 
 
+        /// 指定したパスにディレクトリが存在しない場合
+        /// すべてのディレクトリとサブディレクトリを作成します
+        public static DirectoryInfo SafeCreateDirectory(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                return null;
+            }
+            return Directory.CreateDirectory(path);
+        }
+
+        private void button_output_Click(object sender, EventArgs e)
+        {
+            //FolderBrowserDialogクラスのインスタンスを作成
+            //FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            //上部に表示する説明テキストを指定する
+            folderBrowserDialog1.Description = "フォルダを指定してください。";
+            //ルートフォルダを指定する
+            //デフォルトでDesktop
+            folderBrowserDialog1.RootFolder = Environment.SpecialFolder.Desktop;
+            //最初に選択するフォルダを指定する
+            //RootFolder以下にあるフォルダである必要がある
+            folderBrowserDialog1.SelectedPath = @"C:\Windows";
+            //ユーザーが新しいフォルダを作成できるようにする
+            //デフォルトでTrue
+            folderBrowserDialog1.ShowNewFolderButton = true;
+
+            //ダイアログを表示する
+            if (folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                //選択されたフォルダを表示する
+                Console.WriteLine(folderBrowserDialog1.SelectedPath);
+                textBox_output.Text = folderBrowserDialog1.SelectedPath;;
+                OUTPUT_FOLDAR_PATH = textBox_output.Text;
+            }
+        }
     }
 }

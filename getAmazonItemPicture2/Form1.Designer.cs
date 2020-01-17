@@ -33,6 +33,9 @@
             this.textBox_input = new System.Windows.Forms.TextBox();
             this.button_input_set = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.textBox_output = new System.Windows.Forms.TextBox();
+            this.button_output = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_csv_read
@@ -76,11 +79,31 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // textBox_output
+            // 
+            this.textBox_output.Location = new System.Drawing.Point(82, 227);
+            this.textBox_output.Multiline = true;
+            this.textBox_output.Name = "textBox_output";
+            this.textBox_output.Size = new System.Drawing.Size(671, 33);
+            this.textBox_output.TabIndex = 4;
+            // 
+            // button_output
+            // 
+            this.button_output.Location = new System.Drawing.Point(759, 227);
+            this.button_output.Name = "button_output";
+            this.button_output.Size = new System.Drawing.Size(127, 41);
+            this.button_output.TabIndex = 5;
+            this.button_output.Text = "出力先";
+            this.button_output.UseVisualStyleBackColor = true;
+            this.button_output.Click += new System.EventHandler(this.button_output_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1582, 668);
+            this.Controls.Add(this.button_output);
+            this.Controls.Add(this.textBox_output);
             this.Controls.Add(this.button_input_set);
             this.Controls.Add(this.textBox_input);
             this.Controls.Add(this.button_exec);
@@ -100,6 +123,9 @@
         private System.Windows.Forms.TextBox textBox_input;
         private System.Windows.Forms.Button button_input_set;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.TextBox textBox_output;
+        private System.Windows.Forms.Button button_output;
     }
 }
 
