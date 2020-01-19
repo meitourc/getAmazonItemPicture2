@@ -36,13 +36,14 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.textBox_output = new System.Windows.Forms.TextBox();
             this.button_output = new System.Windows.Forms.Button();
+            this.label_output_error1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button_csv_read
             // 
-            this.button_csv_read.Location = new System.Drawing.Point(978, 74);
+            this.button_csv_read.Location = new System.Drawing.Point(82, 313);
             this.button_csv_read.Name = "button_csv_read";
-            this.button_csv_read.Size = new System.Drawing.Size(292, 71);
+            this.button_csv_read.Size = new System.Drawing.Size(813, 73);
             this.button_csv_read.TabIndex = 0;
             this.button_csv_read.Text = "CSV読み取り";
             this.button_csv_read.UseVisualStyleBackColor = true;
@@ -50,9 +51,9 @@
             // 
             // button_exec
             // 
-            this.button_exec.Location = new System.Drawing.Point(919, 294);
+            this.button_exec.Location = new System.Drawing.Point(82, 414);
             this.button_exec.Name = "button_exec";
-            this.button_exec.Size = new System.Drawing.Size(403, 94);
+            this.button_exec.Size = new System.Drawing.Size(820, 82);
             this.button_exec.TabIndex = 1;
             this.button_exec.Text = "実行";
             this.button_exec.UseVisualStyleBackColor = true;
@@ -64,6 +65,7 @@
             this.textBox_input.Name = "textBox_input";
             this.textBox_input.Size = new System.Drawing.Size(671, 31);
             this.textBox_input.TabIndex = 2;
+            this.textBox_input.TextChanged += new System.EventHandler(this.textBox_input_TextChanged);
             // 
             // button_input_set
             // 
@@ -81,15 +83,16 @@
             // 
             // textBox_output
             // 
-            this.textBox_output.Location = new System.Drawing.Point(82, 227);
+            this.textBox_output.Location = new System.Drawing.Point(82, 198);
             this.textBox_output.Multiline = true;
             this.textBox_output.Name = "textBox_output";
             this.textBox_output.Size = new System.Drawing.Size(671, 33);
             this.textBox_output.TabIndex = 4;
+            this.textBox_output.TextChanged += new System.EventHandler(this.textBox_output_TextChanged);
             // 
             // button_output
             // 
-            this.button_output.Location = new System.Drawing.Point(759, 227);
+            this.button_output.Location = new System.Drawing.Point(759, 198);
             this.button_output.Name = "button_output";
             this.button_output.Size = new System.Drawing.Size(127, 41);
             this.button_output.TabIndex = 5;
@@ -97,11 +100,22 @@
             this.button_output.UseVisualStyleBackColor = true;
             this.button_output.Click += new System.EventHandler(this.button_output_Click);
             // 
+            // label_output_error1
+            // 
+            this.label_output_error1.AutoSize = true;
+            this.label_output_error1.ForeColor = System.Drawing.Color.Coral;
+            this.label_output_error1.Location = new System.Drawing.Point(89, 248);
+            this.label_output_error1.Name = "label_output_error1";
+            this.label_output_error1.Size = new System.Drawing.Size(299, 24);
+            this.label_output_error1.TabIndex = 6;
+            this.label_output_error1.Text = "出力先のパスが存在しません。";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1582, 668);
+            this.ClientSize = new System.Drawing.Size(1245, 668);
+            this.Controls.Add(this.label_output_error1);
             this.Controls.Add(this.button_output);
             this.Controls.Add(this.textBox_output);
             this.Controls.Add(this.button_input_set);
@@ -126,6 +140,7 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.TextBox textBox_output;
         private System.Windows.Forms.Button button_output;
+        private System.Windows.Forms.Label label_output_error1;
     }
 }
 

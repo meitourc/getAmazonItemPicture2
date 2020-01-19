@@ -37,7 +37,8 @@ namespace getAmazonItemPicture2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            button_exec_control();
+            label_output_error1.Visible = false;
         }
 
         /// <summary>
@@ -94,6 +95,7 @@ namespace getAmazonItemPicture2
                 }
                 parser.Close();
             }
+            button_exec_control();
 
 
         }
@@ -118,10 +120,21 @@ namespace getAmazonItemPicture2
         /// <param name="e"></param>
         private void button_exec_Click(object sender, EventArgs e)
         {
-            // コンソールに出力する
-            if(textBox_output.Text == "") { 
-                string outputFoldarPath = @".\";
+
+            if (Directory.Exists(textBox_output.Text))
+            {
+                label_output_error1.Visible = false;
             }
+            else
+            {
+                label_output_error1.Visible = true;
+                return;
+            }
+
+            //
+            //if (textBox_output.Text == "") { 
+            //    string outputFoldarPath = @".\";
+            //}
 
             foreach (var data in amazonItemDataList)
             {
@@ -191,7 +204,7 @@ namespace getAmazonItemPicture2
         private string scrapingItemPicture(string html,string id, string pictureName)
         {
 
-            //string html = getItemPictureHtml(asinUrl);
+             //string html = getItemPictureHtml(asinUrl);
             html = html.Replace("\r", "").Replace("\n", "");
 
             string output_foldar_path = OUTPUT_FOLDAR_PATH + @"/" + id + "_" + pictureName;
@@ -285,6 +298,42 @@ namespace getAmazonItemPicture2
                 textBox_output.Text = folderBrowserDialog1.SelectedPath;;
                 OUTPUT_FOLDAR_PATH = textBox_output.Text;
             }
+        }
+
+
+        /// <summary>
+        /// 実行ボタンの活性/非活性のコントロール処理
+        /// </summary>
+        void button_exec_control()
+        {
+            if(amazonItemDataList.Count > 0 && textBox_input.Text != "" && textBox_output.Text != "")
+            {
+                button_exec.Enabled = true;
+            }
+            else { 
+                button_exec.Enabled = false;
+            }
+
+        }
+
+        /// <summary>
+        /// 入力パスの値変更時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox_input_TextChanged(object sender, EventArgs e)
+        {
+            button_exec_control();
+        }
+
+        /// <summary>
+        /// 出力パスの値変更時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox_output_TextChanged(object sender, EventArgs e)
+        {
+            button_exec_control();
         }
     }
 }
