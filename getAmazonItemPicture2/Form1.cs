@@ -233,29 +233,42 @@ namespace getAmazonItemPicture2
                 string URI = item.ToString().Trim('\"');
                 //Console.WriteLine("match.Groups[" + i + "] : " + item);
                 Console.WriteLine(URI);
+                pattern = "^s?https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+$";
 
                 SafeCreateDirectory(output_foldar_path);
                 string path = output_foldar_path +"/" + pictureName;
                 //string path = "../../sample_" + pictureName;
-
-                string[] base64Image = URI.Split(',');
-
-                Console.WriteLine("\n2-------------------------------------------------------------------\n");
-
-                //Console.WriteLine(base64Image[1]);
-
-                UriForConvert = base64Image[1];
-                var bytes = Convert.FromBase64String(UriForConvert);
-
-
-
-                using (var imageFile = new FileStream(path, FileMode.Create))
+                if(Regex.IsMatch(URI, @pattern))
                 {
-                    imageFile.Write(bytes, 0, bytes.Length);
-                    imageFile.Flush();
-                }
-             
+                    WebClient client = new WebClient();
+                    client.DownloadFile(URI, path);
 
+                    try
+                    {
+                        client.DownloadFile(URI, path);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("error");
+                    }
+                }
+                else {
+
+                    string[] base64Image = URI.Split(',');
+
+                    Console.WriteLine   ("\n2-------------------------------------------------------------------\n");
+
+                    //Console.WriteLine(base64Image[1]);
+
+                    UriForConvert = base64Image[1];
+                    var bytes = Convert.FromBase64String(UriForConvert);
+                    using (var imageFile = new FileStream(path, FileMode.Create))
+                    {
+                        imageFile.Write(bytes, 0, bytes.Length);
+                        imageFile.Flush();
+                    }
+
+                }
             }
             return UriForConvert;
 
